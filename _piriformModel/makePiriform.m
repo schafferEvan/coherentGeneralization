@@ -1,14 +1,10 @@
 
 function [y,th,h,J,maxy,thNoNorm] = makePiriform(x,pirSparseness,J,maxy,computeJ,th)
-global Nx Ny Sc ScInh exInhBalance glomExpMean glomExpMax Sp NoR NoC NoM classOdorOverlap N4 S4 S4c templateOdor Jmax glomActMu glomActSig thMean thVar
+global Nx Ny Sc ScInh exInhBalance Sp glomActMu glomActSig thMean
 
 
-% rearranged to reduce RAM pressure on 1/2/2017
-
-
-%initializeGlobals;
 if nargin<6
-    th = thMean; %7.8;%9.8;%9.4; %7.3;
+    th = thMean;
     useExactTh = true;
 else
     useExactTh = false;
@@ -26,63 +22,15 @@ elseif isempty(J)
     makeJ = true;
 end
 
-if makeJ
-    %Cp = Sc*Nx; %glomerulus connections per piriform neuron
-    
-    %random version of Jp
-    JpTemp = (rand(Ny,Nx)<Sc);%/Ny^2*; %randn(Ny,Nx).*
-    
-    %fixed version of Jp
-%     [~,loc] = sort(rand(Ny,Nx),2,'descend');
-%     JpTemp = zeros(Ny,Nx);
-%     for j=1:Ny
-%         JpTemp(j,loc(j,1:Sc*Nx),:) = 1;
-%     end
-    
-    
+if makeJ    
+    JpTemp = (rand(Ny,Nx)<Sc);
     JnTemp = logical(zeros(Ny,Nx));
-    %old version of Jn
-    %pLocTemp = find(~JpTemp); % find candidate inhib synapses
-    %[~,orderTemp] = sort(rand(size(pLocTemp)),'descend');
-    %JnTemp(pLocTemp(orderTemp(1:Nx*Ny*ScInh))) = 1; %location of inhib synapses
-    %new version of Jn
-    
-    %pLocTemp = find(~JpTemp); % find candidate inhib synapses
     pLocTemp = ~JpTemp(:);
     
-    % random version of Jn
     pNew = Ny*Nx*ScInh/sum(pLocTemp); %adjusted probability of inh
     isCon = rand(length(pLocTemp),1) < pNew;
     JnTemp( pLocTemp & isCon ) = 1;%/Ny^2; %location of inhib synapses
-    % JnTemp(pLocTemp(isCon)) = 1;%/Ny^2; %location of inhib synapses
     
-    
-
-    
-    % old version (requires more ram, 1/4/17)
-    %pNew = Ny*Nx*ScInh/length(pLocTemp); %adjusted probability of inh
-    %isCon = rand(size(pLocTemp)) < pNew;
-    %JnTemp(pLocTemp(isCon)) = 1;%/Ny^2; %location of inhib synapses
-    
-    % fixed version of Jn
-    %   for j=1:Ny
-    %   pLocTemp = find(~JpTemp(j,:)); % find candidate inhib synapses
-    %   [~,orderTemp] = sort(rand(size(pLocTemp)),'descend');
-    %   JnTemp(j,pLocTemp(orderTemp(1:Nx*ScInh))) = 1; %location of inhib synapses
-    %   end
-    
-    %     pValTemp = lognrnd(0,1,Ny,Nx);
-    %     while max(max(pValTemp))>Jmax
-    %         pValTemp(pValTemp>Jmax) = lognrnd(0,1,size(pValTemp(pValTemp>Jmax)));
-    %     end
-    %
-    %     nValTemp = lognrnd(0,1,Ny,Nx);
-    %     while max(max(nValTemp))>Jmax
-    %         nValTemp(nValTemp>Jmax) = lognrnd(0,1,size(nValTemp(nValTemp>Jmax)));
-    %     end
-    %     nValTemp = nValTemp*exInhBalance*(Sc/ScInh); %adjust synaptic strengths to balance
-    %
-    %     J = JpTemp.*pValTemp - JnTemp.*nValTemp;
     if nargin>=5
         if computeJ
             J = JpTemp - JnTemp*exInhBalance*(Sc/ScInh);
@@ -96,7 +44,7 @@ end
 clear pLocTemp
 
 if exist('J','var') && ~isempty(J)
-    y = J*x; %sparse(CPconn*glomerulusRep); %unthresholded activation of piriform
+    y = J*x;
 else
     J = [];
     y = JpTemp*x - JnTemp*x*exInhBalance*(Sc/ScInh);
@@ -126,22 +74,17 @@ if Ny<=10000 && useExactTh
 end
 
 if ~exist('maxy','var') || isempty(maxy)
-    %maxy = max(max(y));
     
     % instead of normalizing to largest value, normalize to 99th percentile
     % for greater stability of results
     tempsort = sort(y,'descend');
-    %xyMax = full(max(max(mouse2data),max(mouse1data)));
     maxy = full(tempsort( round(.01*length(tempsort)) ));
 end
 
-%thMat = thMean*ones(size(y)) + sqrt(thVar)*repmat( randn(Ny,1), 1, No );
-%y = y-thMat;
-y = y-th; % y = sign(y-th);
+y = y-th;
 y(y<0)=0;
-%y(y<th) = 0;
 thNoNorm = th;
-th = th/maxy; % SO "TH" STILL MEANS SOMETHING ******
+th = th/maxy;
 y = sparse(y/maxy);  
 
 
