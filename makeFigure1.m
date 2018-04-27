@@ -1,7 +1,9 @@
 
 
 function makeFigure1
-global paperFig classLevel1 classLevel2 class1Color class2Color Sp
+global paperFig classLevel1 classLevel2 class1Color class2Color Sp greenColorAdjust
+
+
 
 % updated size & units for journal specs on 03/28/2017
 
@@ -12,15 +14,6 @@ global paperFig classLevel1 classLevel2 class1Color class2Color Sp
 % calculate4thOrderPopResp_popV2.m   (for population plots, N4=200)
 % _flyModel/calculate4thOrderPopResp_Fly_antiHebbSmall.m
 
-
-% PREVIOUSLY ALSO NEEDED:
-% calculate4thOrderPopResp_v2.m      (for scaling plots, N4=1)
-% calculateSumFigParts_smallNy.m
-% calculateRepDimensionality.m
-% calculate_corrVar_vs_Ny.m
-% calculate4thOrderPopResp_Ex.m   (for examples)
-% -----------------------------------------------------------------
-
 % -----------------------------------------------------------------
 % simplified back to single example of "2-mouse" fig on 6/14/16
 % reshaped on 5/20/16
@@ -28,6 +21,7 @@ global paperFig classLevel1 classLevel2 class1Color class2Color Sp
 % updated to use only "correlated" odors instead of mix & class on 12/29/15
 % -----------------------------------------------------------------
 
+addpath(genpath([pwd,'/_piriformModel']))
 
 paperFig = figure; 
 set(gcf,'color','w')
@@ -147,7 +141,7 @@ caxis([-2 1])
 
 
 %% correlation fig
-load('partsForSumFig.mat');
+load('_simResults/partsForSumFig.mat');
 axes(biAxes) 
 hrange = -0.1:max(glomCorr)/100:max(glomCorr); %0:.01:1; %hrange = 0:1:201; 
 
@@ -216,7 +210,7 @@ display(['Class2 (pir): ',num2str(mean(pirCorr(  corrIsClass2Loc )))])
 
 %% model overlap
 axes(cAxes); hold on
-z = load('partsForFig1odorPairComparison.mat');
+z = load('_simResults/partsForFig1odorPairComparison.mat');
 plot(z.pirRepFreqClass2Expected,z.pirRepFreqClass2Observed,'.','markersize',7,'color',class2Color);hold on
 plot(z.pirRepFreqClass1Expected,z.pirRepFreqClass1Observed,'.','markersize',7,'color',class1Color);
 plot(z.pirRepFreqRandExpected,z.pirRepFreqRandObserved,'.','markersize',7,'color',[0 0 0]); hold on
@@ -238,8 +232,8 @@ text(0.1,0.5,'See Excel file for data')
 
 randClassColor = [.9 .5 0];
 
-load('part1ForImportanceFig_pInv.mat');
-load('part2ForImportanceFig_pInv.mat');
+load('_simResults/part1ForImportanceFig_pInv.mat');
+load('_simResults/part2ForImportanceFig_pInv.mat');
 
 axes(eAxes); hold on
 db = .005; b = 0:db:0.8;
