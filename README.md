@@ -1,4 +1,4 @@
-### The code in this repository is sufficient to completely recreate the figures from Schaffer, Stettler, Kato, Choi, Axel, & Abbott (2018). Odor Perception on the Two Sides of the Brain: Consistency Despite Randomness. *Neuron*, https://doi.org/10.1016/j.neuron.2018.04.004.
+#### The code in this repository is sufficient to completely recreate the figures from Schaffer, Stettler, Kato, Choi, Axel, & Abbott (2018). Odor Perception on the Two Sides of the Brain: Consistency Despite Randomness. *Neuron*, https://doi.org/10.1016/j.neuron.2018.04.004.
 
 ##### makeFig1.m generates Figure 1. Requires that:
 
