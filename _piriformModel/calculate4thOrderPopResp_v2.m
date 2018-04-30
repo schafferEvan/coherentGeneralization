@@ -198,7 +198,11 @@ for j=1:length(dSteps)
         end
     end
     clear piriformRepLarge piriformRepLarge2
-    save(['pop4thOrderResp_v2_',num2str(oCorr),'_iter_',num2str(popRespIter),'.mat'],'ZCat','Z2Cat','agr90base','T50base','T90base','rAgr90','oCorr','dSteps','kSteps','N4','rAcc','rCC','gCC','rCCpSum','rCCSingle','rAgr','rAgrSingle','rAgrSum','RExSingle','REx','Nsingle','snr');
+    fol = [pwd,'/_simResults/_pirSims/_bigParts/'];
+    if ~isdir(fol)
+        mkdir(fol)
+    end
+    save([fol,'/pop4thOrderResp_v2_',num2str(oCorr),'_iter_',num2str(popRespIter),'.mat'],'ZCat','Z2Cat','agr90base','T50base','T90base','rAgr90','oCorr','dSteps','kSteps','N4','rAcc','rCC','gCC','rCCpSum','rCCSingle','rAgr','rAgrSingle','rAgrSum','RExSingle','REx','Nsingle','snr');
     
 end
 

@@ -1,4 +1,4 @@
-# coherentGeneralization
+## The code in this repository is sufficient to completely recreate the figures from Schaffer, Stettler, Kato, Choi, Axel, & Abbott (2018). Odor Perception on the Two Sides of the Brain: Consistency Despite Randomness. *Neuron*, https://doi.org/10.1016/j.neuron.2018.04.004.
 
 ##### makeFig1.m generates Figure 1. Requires that:
 
@@ -11,3 +11,5 @@
 
 	1.  partsForSumFig.mat has been generated using calculateSumFigParts.m and calculateSumFigPart2.m.
 	2.  flyPop4thOrderResp…mat has been generated using calculate4thOrderPopResp_Fly_antiHebb.m
+	3.  pop4thOrderResp…mat had been generated using calculate4thOrderPopResp_v2.m.
+	4.  pop4thOrderRespSmall_…mat had been generated using calculate4thOrderPopResp_v2small.m.

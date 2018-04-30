@@ -234,7 +234,7 @@ for j=1:length(dSteps)
     end
     clear piriformRepLarge piriformRepLarge2
     %fol = '~/Dropbox/_AxelLab/matlab/_dan/_pop4thOrderResp_0.0/_smallParts/';
-    fol = '_smallParts/';
+    fol = [pwd,'/_simResults/_pirSims/_smallParts/'];
     if ~isdir(fol)
         mkdir(fol)
     end

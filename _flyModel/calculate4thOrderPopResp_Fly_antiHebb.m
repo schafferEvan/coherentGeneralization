@@ -249,7 +249,11 @@ for j=1:length(dSteps)
         end
     end
     clear piriformRepLarge piriformRepLarge2
-    save([ffolder,'flyPop4thOrderResp_aHebb_',num2str(oCorr),'_',num2str(Sc),'_iter_',num2str(popRespIter),'.mat'],'agr90base','T50base','T90base','rAgr90','oCorr','dSteps','kSteps','N4','rAcc','rCC','rCCpSum','rCCSingle','rAgr','rAgrSingle','rAgrSum','RExSingle','REx','REx2','RExU','REx2U','snr');
+    fol = [pwd,'/_simResults/_flySims/'];
+    if ~isdir(fol)
+        mkdir(fol)
+    end
+    save([fol,'flyPop4thOrderResp_aHebb_',num2str(oCorr),'_',num2str(Sc),'_iter_',num2str(popRespIter),'.mat'],'agr90base','T50base','T90base','rAgr90','oCorr','dSteps','kSteps','N4','rAcc','rCC','rCCpSum','rCCSingle','rAgr','rAgrSingle','rAgrSum','RExSingle','REx','REx2','RExU','REx2U','snr');
     
 end
 
